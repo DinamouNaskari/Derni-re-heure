@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Dernière Heure | Restaurant</title>
+        <!-- Bootstrap 5 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+        <style>
+  :root{
+    --brand:#ff6b35;
+    --brand-dark:#e55300;
+    --dark:#0f1724;
+    --muted:#6b7280;
+    --cream:#fff3e0;
+  }
+  body {
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    color: var(--dark);
+    background: var(--cream);
+    margin: 0;
+    padding: 0;
+  }
+
+  /* NAV */
+  .navbar {
+    backdrop-filter: saturate(180%) blur(8px);
+    background: rgba(255, 107, 53, 0.85);
+    max-width: 1270px;
+    padding: 0 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1100;
+    transition: top 0.35s ease, background-color 0.35s ease, box-shadow 0.35s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  }
+  .navbar.scrolled {
+    background: rgba(229, 83, 0, 0.95);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  }
+
+  /* Navbar hide/show on scroll handled by JS */
+  
+  /* HERO */
+  .hero {
+    min-height: 70vh;
+    background-image:
+      linear-gradient(90deg, rgba(0,0,0,0.38), rgba(0,0,0,0.18)),
+      url('images/fond.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    padding-top: 80px; /* For navbar offset */
+  }
+  .hero .content {
+    color: white;
+  }
+  .badge-brand {
+    background: var(--brand-dark);
+    color: #fff;
+    border-radius: 12px;
+    padding: 6px 14px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+  }
+
+  /* Cards */
+  .food-card {
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease;
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .food-card:hover {
+    transform: translateY(-8px) scale(1.05) rotateZ(1deg);
+    box-shadow: 0 15px 30px rgba(255, 107, 53, 0.3);
+  }
+  .food-card img {
+    height: 130px;
+    object-fit: cover;
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    transition: transform 0.6s ease, filter 0.6s ease;
+    filter: saturate(1);
+  }
+  .food-card:hover img {
+    transform: scale(1.1) rotateZ(1.5deg);
+    filter: saturate(1.3) brightness(1.1);
+  }
+
+  /* Animations + reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  /* Category buttons */
+  .cat-btn {
+    border-radius: 999px;
+    padding: 8px 18px;
+    margin: 6px 6px 6px 0;
+    border: 2px solid var(--brand);
+    color: var(--brand-dark);
+    font-weight: 600;
+    background: #fff;
+    transition: background-color 0.35s ease, color 0.35s ease;
+  }
+  .cat-btn:hover {
+    background-color: var(--brand);
+    color: white;
+  }
+  .cat-btn.active {
+    background-color: var(--brand-dark);
+    color: white;
+    border-color: var(--brand-dark);
+  }
+
+  /* Footer */
+  footer {
+    background: #081226;
+    color: #fff;
+    padding: 40px 0;
+  }
+  .social a {
+    color: #fff;
+    margin-right: 14px;
+    font-size: 20px;
+    transition: color 0.3s ease;
+  }
+  .social a:hover {
+    color: var(--brand);
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 768px) {
+    .hero {
+      min-height: 50vh;
+      padding-top: 70px;
+    }
+    .food-card img {
+      height: 100px;
+    }
+  }
+  @media (max-width: 480px) {
+    .navbar {
+      padding: 0 12px;
+    }
+    .hero .content h1 {
+      font-size: 1.6rem;
+    }
+  }
+</style>
+
+    </head>
+    <body>
+
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="#">
+                    <img src="images/logo.png" alt="logo" width="60"
+                        class="me-2" />
+                    <div>
+                        <div style="font-weight:800;line-height:1">Dernière
+                            Heure</div>
+                        <small class="text-muted"
+                            style="font-size:12px">Restaurant &
+                            Livraison</small>
+                    </div>
+                </a>
+                <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navMenu">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link"
+                                href="#home">Accueil</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                href="#menu">Menu</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                href="#categories">Categorie</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">A
+                                propos</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- HERO -->
+        <header id="home" class="hero">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 content reveal">
+                        <span class="badge-brand">Faim de dernière minute
+                            ?</span>
+                        <h1 class="display-5 mt-3">Découvrez les saveurs du jour
+                            — Livraison rapide</h1>
+                        <p class="lead text-white mt-2">Plats frais, boissons
+                            glacées, pizzas croustillantes et desserts maison.
+                            Commandez avant la fermeture !</p>
+                        <div class="mt-4">
+                            <a href="#menu"
+                                class="btn btn-light btn-lg me-2">Voir le
+                                Menu</a>
+                            <a href="#contact"
+                                class="btn btn-outline-light btn-lg">Contact</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 d-none d-lg-block reveal">
+                        <img src="images/hero-plate.jpeg" alt="hero plate"
+                            class="img-fluid shadow-lg"
+                            style="border-radius:14px" />
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MENU (all products) -->
+        <section id="menu" class="py-5">
+            <div class="container">
+                <div
+                    class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Notre Menu</h2>
+                    <div class="text-muted">Retrouvez tous nos produits
+                        ci-dessous</div>
+                </div>
+
+                <div class="row g-3" id="productsGrid">
+                    <!-- Exemple de carte produit : ajoute autant que nécessaire en mettant image dans /images -->
+
+                    <!-- Row 1 sample items (use real filenames from ton dossier) -->
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal">
+                        <div class="card p-2 food-card"
+                            data-category="sandwich">
+                            <img src="images/chawarma plat.jpeg"
+                                class="card-img-top" alt="Chawarma" />
+                            <div class="card-body">
+                                <h5 class="card-title">Chawarma Plat</h5>
+                                <p class="card-text text-muted small">Sandwich
+                                    généreux, sauce maison.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <strong>2 500 CFA</strong>
+                                    <button
+                                        class="btn btn-sm btn-outline-primary">Commander</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal">
+                        <div class="card p-2 food-card" data-category="pizzas">
+                            <img src="images/pizzas.jpeg" class="card-img-top"
+                                alt="Pizza" />
+                            <div class="card-body">
+                                <h5 class="card-title">Pizza Margherita</h5>
+                                <p class="card-text text-muted small">Tomate,
+                                    mozzarella, basilic.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <strong>3 000 CFA</strong>
+                                    <button
+                                        class="btn btn-sm btn-outline-primary">Commander</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal">
+                        <div class="card p-2 food-card" data-category="jus">
+                            <img src="images/jus de fruit.jpeg"
+                                class="card-img-top" alt="Jus" />
+                            <div class="card-body">
+                                <h5 class="card-title">Jus de fruit</h5>
+                                <p class="card-text text-muted small">Pressé
+                                    maison, servi glacé.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <strong>700 CFA</strong>
+                                    <button
+                                        class="btn btn-sm btn-outline-primary">Commander</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal">
+                        <div class="card p-2 food-card" data-category="repas">
+                            <img src="images/mandi viande.jpeg"
+                                class="card-img-top" alt="Repas" />
+                            <div class="card-body">
+                                <h5 class="card-title">Mandi Viande</h5>
+                                <p class="card-text text-muted small">Plat
+                                    traditionnel, généreux et savoureux.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <strong>4 500 CFA</strong>
+                                    <button
+                                        class="btn btn-sm btn-outline-primary">Commander</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- more cards: basta, gateau, sandwich, etc. replicate pattern and set data-category accordingly -->
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal">
+                        <div class="card p-2 food-card" data-category="basta">
+                            <img src="images/basta.jpeg" class="card-img-top"
+                                alt="Basta" />
+                            <div class="card-body">
+                                <h5 class="card-title">Basta</h5>
+                                <p class="card-text text-muted small">Feuilleté
+                                    croustillant.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <strong>900 CFA</strong>
+                                    <button
+                                        class="btn btn-sm btn-outline-primary">Commander</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal">
+                        <div class="card p-2 food-card" data-category="gateau">
+                            <img src="images/gateau.jpeg" class="card-img-top"
+                                alt="Gateau" />
+                            <div class="card-body">
+                                <h5 class="card-title">Gâteau Maison</h5>
+                                <p class="card-text text-muted small">Dessert du
+                                    jour.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <strong>1 200 CFA</strong>
+                                    <button
+                                        class="btn btn-sm btn-outline-primary">Commander</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- add additional products from your folder images (e.g., humburger, frites, ice cream...) -->
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CATEGORIES (Jus,Pizzas,Sandwich,Repas,Basta,Gateau) -->
+        <section id="categories" class="py-5 bg-light">
+            <div class="container">
+                <div
+                    class="d-flex justify-content-between align-items-center mb-3">
+                    <h2>Catégories</h2>
+                    <div>
+                        <button class="btn btn-outline-secondary cat-btn"
+                            data-filter="all">Tous</button>
+                        <button class="btn btn-outline-secondary cat-btn"
+                            data-filter="jus">Jus</button>
+                        <button class="btn btn-outline-secondary cat-btn"
+                            data-filter="pizzas">Pizzas</button>
+                        <button class="btn btn-outline-secondary cat-btn"
+                            data-filter="sandwich">Sandwich</button>
+                        <button class="btn btn-outline-secondary cat-btn"
+                            data-filter="repas">Repas</button>
+                        <button class="btn btn-outline-secondary cat-btn"
+                            data-filter="basta">Basta</button>
+                        <button class="btn btn-outline-secondary cat-btn"
+                            data-filter="gateau">Gateau</button>
+                    </div>
+                </div>
+
+                <div id="categoryGrid" class="row g-3">
+                    <!-- We'll reuse the product cards from the main menu and filter them with JS. For demo, show a few featured per category -->
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal"
+                        data-cat="pizzas">
+                        <div class="card p-2 food-card">
+                            <img src="images/pizzas.jpeg" class="card-img-top"
+                                alt="Pizza" />
+                            <div class="card-body">
+                                <h5 class="card-title">Pizza 4 Fromages</h5>
+                                <p class="card-text small text-muted">Cuite au
+                                    feu de bois.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal"
+                        data-cat="jus">
+                        <div class="card p-2 food-card">
+                            <img src="images/jus de fruit.jpeg"
+                                class="card-img-top" alt="jus" />
+                            <div class="card-body">
+                                <h5 class="card-title">Jus Orange</h5>
+                                <p class="card-text small text-muted">Nature,
+                                    sans sucre ajouté.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal"
+                        data-cat="sandwich">
+                        <div class="card p-2 food-card">
+                            <img src="images/humburger.jpeg"
+                                class="card-img-top" alt="Burger" />
+                            <div class="card-body">
+                                <h5 class="card-title">Humburger</h5>
+                                <p class="card-text small text-muted">Steak,
+                                    salade et cheddar.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal"
+                        data-cat="repas">
+                        <div class="card p-2 food-card">
+                            <img src="images/plat riz.jpeg" class="card-img-top"
+                                alt="repas" />
+                            <div class="card-body">
+                                <h5 class="card-title">Plat Riz</h5>
+                                <p
+                                    class="card-text small text-muted">Accompagnement
+                                    maison.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal"
+                        data-cat="basta">
+                        <div class="card p-2 food-card">
+                            <img src="images/basta.jpeg" class="card-img-top"
+                                alt="basta" />
+                            <div class="card-body">
+                                <h5 class="card-title">Basta au poulet</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal"
+                        data-cat="gateau">
+                        <div class="card p-2 food-card">
+                            <img src="images/gateau.jpeg" class="card-img-top"
+                                alt="gateau" />
+                            <div class="card-body">
+                                <h5 class="card-title">Gâteau au chocolat</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- A PROPOS -->
+        <section id="about" class="py-5">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-md-6 reveal">
+                        <h2>À propos de Dernière Heure</h2>
+                        <p class="text-muted">Dernière Heure est un restaurant
+                            ouvert tard, spécialisé dans la livraison rapide et
+                            les plats faits maison. Nous privilégions des
+                            ingrédients frais et des recettes locales
+                            revisitées.</p>
+                        <ul>
+                            <li>Ouvert tous les jours jusqu'à minuit</li>
+                            <li>Livraison express en 30-45 min</li>
+                            <li>Options végétariennes & enfants</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 reveal">
+                        <div class="ratio ratio-16x9 shadow-sm"
+                            style="border-radius:12px; overflow:hidden">
+                            <iframe
+                                src="https://www.youtube.com/embed/lu4LEK6-iLo"
+                                title="video"
+                                allowfullscreen
+                                style="border:0">
+                            </iframe>
+                        </div>
+                    </div>
+                    <div class="col-md-6 reveal">
+                        <div class="ratio ratio-16x9 shadow-sm"
+                            style="border-radius:12px; overflow:hidden">
+                            <iframe
+                                src="https://www.youtube.com/embed/C0YhjXwgEh0"
+                                title="#roastedchicken #grill #kebabgrill Roasted Chicken Machine"
+                                allowfullscreen
+                                style="border:0">
+                            </iframe>
+                        </div>
+                    </div>
+                    <div class="col-md-6 reveal">
+                        <div class="ratio ratio-16x9 shadow-sm"
+                            style="border-radius:12px; overflow:hidden">
+                            <iframe
+                                src="https://www.youtube.com/embed/9rIeiDxd0vw"
+                                title="MILKSHAKE BANANE onctueux en 4 étapes ! Recette express."
+                                allowfullscreen
+                                style="border:0">
+                            </iframe>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="py-5 bg-light">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6 reveal">
+                        <h3>Contact</h3>
+                        <p class="text-muted">Contactez-nous via WhatsApp,
+                            réseaux sociaux ou téléphone.</p>
+
+                        <p>
+                            <a class="btn btn-success me-2"
+                                href="https://wa.me/+23563840280?text=Bonjour%20Derniere%20Heure"
+                                target="_blank"><i
+                                    class="fab fa-whatsapp me-2"></i>WhatsApp</a>
+                            <a class="btn btn-primary me-2"
+                                href="https://www.facebook.com/"
+                                target="_blank"><i
+                                    class="fab fa-facebook-f me-2"></i>Facebook</a>
+                            <a class="btn btn-dark me-2"
+                                href="https://www.tiktok.com/"
+                                target="_blank"><i
+                                    class="fab fa-tiktok me-2"></i>TikTok</a>
+                            <a class="btn btn-danger me-2"
+                                href="https://www.youtube.com/"
+                                target="_blank"><i
+                                    class="fab fa-youtube me-2"></i>YouTube</a>
+                        </p>
+
+                        <p class="mb-0"><strong>Téléphone:</strong> <a
+                                href="tel:+23563840280">+235 63 84 02 80</a></p>
+                        <p><strong>Adresse:</strong> Rue de 40 M,
+                            Centre-ville</p>
+                    </div>
+                    <div class="col-md-6 reveal">
+                        <form class="p-4 bg-white rounded shadow-sm">
+                            <div class="mb-3">
+                                <label class="form-label">Nom</label>
+                                <input class="form-control"
+                                    placeholder="Votre nom" />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Message</label>
+                                <textarea class="form-control" rows="4"
+                                    placeholder="Votre message"></textarea>
+                            </div>
+                            <div
+                                class="d-flex justify-content-between align-items-center">
+                                <button class="btn btn-primary">Envoyer</button>
+                                <small class="text-muted">Ou contactez-nous via
+                                    WhatsApp</small>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Dernière Heure</h5>
+                        <p class="text-muted">Restaurant - Livraison rapide.
+                            Saveurs locales & internationales.</p>
+                        <div class="social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#"><i class="fab fa-tiktok"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>Navigation</h6>
+                        <ul class="list-unstyled text-muted">
+                            <li><a href="#home"
+                                    class="text-muted">Accueil</a></li>
+                            <li><a href="#menu" class="text-muted">Menu</a></li>
+                            <li><a href="#categories"
+                                    class="text-muted">Catégories</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 text-md-end text-muted">
+                        <small>&copy; 2025 Dernière Heure. Tous droits
+                            réservés.</small>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Bootstrap + scripts -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+
+  // Navbar hide/show on scroll with smooth transition
+  let lastScrollTop = 0;
+  const navbar = document.querySelector('.navbar');
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Change navbar background on scroll down a bit for better contrast
+    if(scrollTop > 50){
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+
+    if(scrollTop > lastScrollTop && scrollTop > 100){
+      // Scroll down -> hide navbar
+      navbar.style.top = `-80px`;
+    } else {
+      // Scroll up -> show navbar
+      navbar.style.top = `0`;
+    }
+
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
+  });
+    // Smooth reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target);} });
+    },{threshold:0.12});
+    reveals.forEach(r=>observer.observe(r));
+
+    // Category filtering (applies both to menu grid and categories section)
+    function filterProducts(filter){
+      const products = document.querySelectorAll('#productsGrid [data-category]');
+      products.forEach(p=>{
+        if(filter==='all' || p.dataset.category===filter){ p.parentElement.style.display = 'block'; }
+        else { p.parentElement.style.display = 'none'; }
+      });
+    }
+
+    // Buttons on categories section
+    document.querySelectorAll('.cat-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        filterProducts(f);
+        // also filter categoryGrid elements
+        document.querySelectorAll('#categoryGrid [data-cat]').forEach(item=>{
+          item.style.display = (f==='all' || item.dataset.cat===f) ? 'block' : 'none';
+        });
+      });
+    });
+
+    // Default show all
+    filterProducts('all');
+
+    // Small animation for nav links: smooth scroll
+    document.querySelectorAll('a.nav-link').forEach(a=>{
+      a.addEventListener('click',(e)=>{
+        e.preventDefault();
+        const id = a.getAttribute('href');
+        document.querySelector(id).scrollIntoView({behavior:'smooth'});
+      });
+    });
+
+    // Commander buttons -> open contact via WhatsApp with product info
+    document.querySelectorAll('.food-card button').forEach((btn)=>{
+      btn.addEventListener('click', ()=>{
+        const card = btn.closest('.food-card') || btn.closest('.card');
+        const title = card.querySelector('.card-title')?.innerText || 'Commande';
+        const url = `https://wa.me/22912345678?text=Bonjour,%20je%20veux%20commander%20:%20${encodeURIComponent(title)}`;
+        window.open(url, '_blank');
+      });
+    });
+
+  </script>
+    </body>
+</html>
