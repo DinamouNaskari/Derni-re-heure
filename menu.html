@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+        <link rel="stylesheet" href="style.css">
+        <title>Menu</title>
+    </head>
+    <body>
+
+        <br><br><br><br><br>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="#">
+                    <img src="images/logo.png" alt="logo" width="60"
+                        class="me-2" />
+                    <div>
+                        <div style="font-weight:800;line-height:1">Dernière
+                            Heure</div>
+                        <small class="text-muted"
+                            style="font-size:12px">Restaurant &
+                            Livraison</small>
+                    </div>
+                </a>
+                <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navMenu">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link"
+                                href="index.html">Accueil</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                href="menu.html">Menu</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                href="categories.html">Categorie</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                href="a_propos.html">A
+                                propos</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- MENU (all products) -->
+        <section id="menu" class="py-5">
+            <div class="container">
+                <div
+                    class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Notre Menu</h2>
+                    <div class="text-muted">Retrouvez tous nos produits
+                        ci-dessous</div>
+                </div>
+
+                <div class="row g-3" id="productsGrid">
+                    <!-- Exemple de carte produit : ajoute autant que nécessaire en mettant image dans /images -->
+
+                    <!-- Row 1 sample items (use real filenames from ton dossier) -->
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal">
+                        <div class="card p-2 food-card"
+                            data-category="sandwich">
+                            <img src="images/chawarma plat.jpeg"
+                                class="card-img-top" alt="Chawarma" />
+                            <div class="card-body">
+                                <h5 class="card-title">Chawarma Plat</h5>
+                                <p class="card-text text-muted small">Sandwich
+                                    généreux, sauce maison.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <strong>2 500 CFA</strong>
+                                    <button
+                                        class="btn btn-sm btn-outline-primary">Commander</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal">
+                        <div class="card p-2 food-card" data-category="pizzas">
+                            <img src="images/pizzas.jpeg" class="card-img-top"
+                                alt="Pizza" />
+                            <div class="card-body">
+                                <h5 class="card-title">Pizza Margherita</h5>
+                                <p class="card-text text-muted small">Tomate,
+                                    mozzarella, basilic.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <strong>3 000 CFA</strong>
+                                    <button
+                                        class="btn btn-sm btn-outline-primary">Commander</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal">
+                        <div class="card p-2 food-card" data-category="jus">
+                            <img src="images/jus de fruit.jpeg"
+                                class="card-img-top" alt="Jus" />
+                            <div class="card-body">
+                                <h5 class="card-title">Jus de fruit</h5>
+                                <p class="card-text text-muted small">Pressé
+                                    maison, servi glacé.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <strong>700 CFA</strong>
+                                    <button
+                                        class="btn btn-sm btn-outline-primary">Commander</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal">
+                        <div class="card p-2 food-card" data-category="repas">
+                            <img src="images/mandi viande.jpeg"
+                                class="card-img-top" alt="Repas" />
+                            <div class="card-body">
+                                <h5 class="card-title">Mandi Viande</h5>
+                                <p class="card-text text-muted small">Plat
+                                    traditionnel, généreux et savoureux.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <strong>4 500 CFA</strong>
+                                    <button
+                                        class="btn btn-sm btn-outline-primary">Commander</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- more cards: basta, gateau, sandwich, etc. replicate pattern and set data-category accordingly -->
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal">
+                        <div class="card p-2 food-card" data-category="basta">
+                            <img src="images/basta.jpeg" class="card-img-top"
+                                alt="Basta" />
+                            <div class="card-body">
+                                <h5 class="card-title">Basta</h5>
+                                <p class="card-text text-muted small">Feuilleté
+                                    croustillant.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <strong>900 CFA</strong>
+                                    <button
+                                        class="btn btn-sm btn-outline-primary">Commander</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 reveal">
+                        <div class="card p-2 food-card" data-category="gateau">
+                            <img src="images/gateau.jpeg" class="card-img-top"
+                                alt="Gateau" />
+                            <div class="card-body">
+                                <h5 class="card-title">Gâteau Maison</h5>
+                                <p class="card-text text-muted small">Dessert du
+                                    jour.</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <strong>1 200 CFA</strong>
+                                    <button
+                                        class="btn btn-sm btn-outline-primary">Commander</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- add additional products from your folder images (e.g., humburger, frites, ice cream...) -->
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Dernière Heure</h5>
+                        <p class="text-muted">Restaurant - Livraison rapide.
+                            Saveurs locales & internationales.</p>
+                        <div class="social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#"><i class="fab fa-tiktok"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>Navigation</h6>
+                        <ul class="list-unstyled text-muted">
+                            <li><a href="index.html"
+                                    class="text-muted">Accueil</a></li>
+                            <li><a href="menu.html"
+                                    class="text-muted">Menu</a></li>
+                            <li><a href="categories.html"
+                                    class="text-muted">Catégories</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 text-md-end text-muted">
+                        <small>&copy; 2025 Dernière Heure. Tous droits
+                            réservés.</small>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>
